@@ -1,0 +1,45 @@
+#vue-subscriptions
+  .pricing-header.px-3.py-3.pt-md-5.pb-md-4.mx-auto.text-center style='max-width: 700px'
+    h1.display-4.text-monospace Break Splits.io
+    p.lead
+      ' Get access to premium features of Splits.io and help us continue to work on building the best speedrunning
+      ' analytics system in the universe 🍔🌌
+  .container v-cloak=true
+    subscription(
+      current-user-id=current_user.id
+      current-user-email=current_user.email
+      current-plan=(current_user.subscriptions.active.first.try(:stripe_plan_id) || 'none')
+      current-plan-status=(current_user.subscriptions.active.first.try(:canceled?) ? 'canceled' : 'active')
+      stripe-publishable-key=ENV['STRIPE_PUBLISHABLE_KEY']
+      silver-plan-id=ENV['STRIPE_SILVER_PLAN_ID']
+      gold-plan-id=ENV['STRIPE_GOLD_PLAN_ID']
+    )
+    .card-deck.mb-3.text-center
+      .card.mb-4.text-center
+        .card-header
+          h4.my-0.font-weight-normal Esports
+        .card-body
+          h1.card-title.pricing-card-title
+            ' $99
+            small.text-muted = '/ mo'
+          ul.list-unstyled.mt-3.mb-4
+            li Dedicated advisor
+            li Regular emails or meetings with new finds
+            li Includes Noclip tier
+        .card-footer
+          a.btn.btn-lg.btn-block.btn-primary href='mailto:ben@splits.io?Splits.io esports tier' Contact us
+      .card.mb-4.text-center
+        .card-header
+          h4.my-0.font-weight-normal Organization
+        .card-body
+          h1.card-title.pricing-card-title
+            ' Email us
+          ul.list-unstyled.mt-3.mb-4
+            li Hire us to expose and visualize analytics
+            li Custom-built to your specifications
+            li Fuel your commentary, stream layout, or players
+        .card-footer
+          a.btn.btn-lg.btn-block.btn-primary href='mailto:ben@splits.io?subject=Splits.io custom analytics' Contact us
+    .card.mb-4.text-center
+      .card-body
+        a href=patreon_url Looking for Patreon?

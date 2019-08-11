@@ -10,7 +10,20 @@
   article
     = render partial: 'username'
     = render partial: 'account_links'
-    = render partial: 'patreon_benefits'
+    #vue-subscriptions.mb-3 v-cloak=true
+      - plan = current_user.subscriptions.active.first
+      - if plan.present?
+        subscription(
+          current-user-id=current_user.id
+          current-user-email=current_user.email
+          current-plan=(current_user.subscriptions.active.first.try(:stripe_plan_id) || 'none')
+          current-plan-status=(current_user.subscriptions.active.first.try(:canceled?) ? 'canceled' : 'active')
+          stripe-publishable-key=ENV['STRIPE_PUBLISHABLE_KEY']
+          silver-plan-id=ENV['STRIPE_SILVER_PLAN_ID']
+          gold-plan-id=ENV['STRIPE_GOLD_PLAN_ID']
+        )
+    - if current_user.patron?
+      = render partial: 'patreon_benefits'
     = render partial: 'authorized_applications'
     = render partial: 'my_applications'
     = render partial: 'delete'
