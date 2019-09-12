@@ -11,8 +11,8 @@
       current-plan=(current_user.subscriptions.active.first.try(:stripe_plan_id) || 'none')
       current-plan-status=(current_user.subscriptions.active.first.try(:canceled?) ? 'canceled' : 'active')
       stripe-publishable-key=ENV['STRIPE_PUBLISHABLE_KEY']
-      silver-plan-id=ENV['STRIPE_SILVER_PLAN_ID']
-      gold-plan-id=ENV['STRIPE_GOLD_PLAN_ID']
+      gold-plan-id=ENV['STRIPE_PLAN_ID_TIER1']
+      noclip-plan-id=ENV['STRIPE_PLAN_ID_TIER2']
     )
     .card-deck.mb-3.text-center
       .card.mb-4.text-center
@@ -38,6 +38,7 @@
             li Hire us to expose and visualize analytics
             li Custom-built to your specifications
             li Fuel your commentary, stream layout, or players
+            li Bulk discounts for Splits.io subs
         .card-footer
           a.btn.btn-lg.btn-block.btn-primary href='mailto:ben@splits.io?subject=Splits.io custom analytics' Contact us
     .card.mb-4.text-center

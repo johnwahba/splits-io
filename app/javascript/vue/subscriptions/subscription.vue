@@ -1,8 +1,8 @@
 <template>
   <div class="card-deck mb-3 text-center">
-    <plan v-bind="bronzePlan" :current-user='currentUser' :stripe-publishable-key='stripePublishableKey'></plan>
-    <plan v-bind="silverPlan" :current-user='currentUser' :stripe-publishable-key='stripePublishableKey'></plan>
-    <plan v-bind="goldPlan" :current-user='currentUser' :stripe-publishable-key='stripePublishableKey'></plan>
+    <plan v-bind="basicPlan"  :current-user='currentUser' :stripe-publishable-key='stripePublishableKey'></plan>
+    <plan v-bind="goldPlan"   :current-user='currentUser' :stripe-publishable-key='stripePublishableKey'></plan>
+    <plan v-bind="noclipPlan" :current-user='currentUser' :stripe-publishable-key='stripePublishableKey'></plan>
   </div>
 </template>
 
@@ -18,20 +18,20 @@ export default {
         email: this.currentUserEmail,
       }
     },
-    bronzePlan: function() {
+    basicPlan: function() {
       return {
         action: 'active',
         name: 'Basic',
         priceCents: 0,
       }
     },
-    silverPlan: function() {
+    goldPlan: function() {
       var action
-      if (this.currentPlan === this.silverPlanId && this.currentPlanStatus === 'active') {
+      if (this.currentPlan === this.goldPlanId && this.currentPlanStatus === 'active') {
         action = 'cancel'
-      } else if (this.currentPlan === this.silverPlanId && this.currentPlanStatus === 'canceled') {
+      } else if (this.currentPlan === this.goldPlanId && this.currentPlanStatus === 'canceled') {
         action = 'canceled'
-      } else if (this.currentPlan === this.goldPlanId) {
+      } else if (this.currentPlan === this.noclipPlanId) {
         action = 'downgrade'
       } else {
         action = 'subscribe'
@@ -39,18 +39,18 @@ export default {
 
       return {
         action: action,
-        id: this.silverPlanId,
+        id: this.goldPlanId,
         name: 'Gold',
         priceCents: 400,
       }
     },
-    goldPlan: function() {
+    noclipPlan: function() {
       var action
-      if (this.currentPlan === this.silverPlanId) {
+      if (this.currentPlan === this.goldPlanId) {
         action = 'upgrade'
-      } else if (this.currentPlan === this.goldPlanId && this.currentPlanStatus === 'canceled') {
+      } else if (this.currentPlan === this.noclipPlanId && this.currentPlanStatus === 'canceled') {
         action = 'canceled'
-      } else if (this.currentPlan === this.goldPlanId) {
+      } else if (this.currentPlan === this.noclipPlanId) {
         action = 'cancel'
       } else {
         action = 'subscribe'
@@ -58,7 +58,7 @@ export default {
 
       return {
         action: action,
-        id: this.goldPlanId,
+        id: this.noclipPlanId,
         name: 'Noclip',
         priceCents: 600,
       }
@@ -71,8 +71,8 @@ export default {
     'current-plan',
     'current-plan-status',
     'stripe-publishable-key',
-    'silver-plan-id',
-    'gold-plan-id'
+    'gold-plan-id',
+    'noclip-plan-id'
   ],
 }
 </script>
