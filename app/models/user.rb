@@ -101,15 +101,15 @@ class User < ApplicationRecord
   end
 
   def has_predictions?
-    patron?(tier: 2) || subscriptions.silver.active.any? || admin?
+    patron?(tier: 2) || subscriptions.tier1.active.any? || admin?
   end
 
   def has_redirectors?
-    patron?(tier: 3) || subscriptions.gold.active.any? || admin?
+    patron?(tier: 3) || subscriptions.tier2.active.any? || admin?
   end
 
   def has_advanced_comparisons?
-    patron?(tier: 3) || subscriptions.gold.active.any? || admin?
+    patron?(tier: 3) || subscriptions.tier2.active.any? || admin?
   end
 
   def patron?(tier: 0)

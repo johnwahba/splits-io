@@ -3,17 +3,8 @@ class Subscription < ActiveRecord::Base
 
   scope :active,   -> { where(ended_at: nil) }
   scope :canceled, -> { where.not(canceled_at: nil) }
-  scope :silver,   -> { where(stripe_plan_id: ENV['STRIPE_SILVER_PLAN_ID']) }
-  scope :gold,     -> { where(stripe_plan_id: ENV['STRIPE_GOLD_PLAN_ID']) }
-
-  def type
-    case stripe_plan_id
-    when ENV['STRIPE_SILVER_PLAN_ID']
-      :silver
-    when ENV['STRIPE_GOLD_PLAN_ID']
-      :gold
-    end
-  end
+  scope :tier1,    -> { where(stripe_plan_id: [ENV['STRIPE_PLAN_ID_TIER1'], ENV['STRIPE_PLAN_ID_TIER2']]) }
+  scope :tier2,    -> { where(stripe_plan_id: ENV['STRIPE_PLAN_ID_TIER2']) }
 
   def canceled?
     canceled_at.present?
@@ -34,12 +25,12 @@ class Subscription < ActiveRecord::Base
       cancel_at_period_end: false,
       items: [{
         id: subscription.items.data[0].id,
-        plan: ENV['STRIPE_GOLD_PLAN_ID'],
+        plan: ENV['STRIPE_PLAN_ID_TIER2'],
       }],
     )
     update(
       canceled_at: nil,
-      stripe_plan_id: ENV['STRIPE_GOLD_PLAN_ID'],
+      stripe_plan_id: ENV['STRIPE_PLAN_ID_TIER2'],
     )
   end
 
@@ -54,12 +45,12 @@ class Subscription < ActiveRecord::Base
       cancel_at_period_end: false,
       items: [{
         id: subscription.items.data[0].id,
-        plan: ENV['STRIPE_SILVER_PLAN_ID']
+        plan: ENV['STRIPE_PLAN_ID_TIER1']
       }],
     )
     update(
       canceled_at: nil,
-      stripe_plan_id: ENV['STRIPE_SILVER_PLAN_ID'],
+      stripe_plan_id: ENV['STRIPE_PLAN_ID_TIER1'],
     )
   end
 

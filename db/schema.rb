@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_06_170240) do
+ActiveRecord::Schema.define(version: 2019_09_12_222109) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
@@ -396,9 +396,9 @@ ActiveRecord::Schema.define(version: 2019_09_06_170240) do
   end
 
   create_table "subscriptions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.bigint "user_id"
+    t.bigint "user_id", null: false
     t.string "stripe_session_id"
-    t.string "stripe_plan_id"
+    t.string "stripe_plan_id", null: false
     t.string "stripe_subscription_id"
     t.string "stripe_payment_intent_id"
     t.string "stripe_customer_id"

@@ -6,10 +6,10 @@
       ' universe 🌌
   .container v-cloak=true
     subscription(
-      current-user-id=current_user.id
-      current-user-email=current_user.email
-      current-plan=(current_user.subscriptions.active.first.try(:stripe_plan_id) || 'none')
-      current-plan-status=(current_user.subscriptions.active.first.try(:canceled?) ? 'canceled' : 'active')
+      current-user-id=current_user.try(:id)
+      current-user-email=current_user.try(:email)
+      current-plan=(current_user && current_user.subscriptions.active.first.try(:stripe_plan_id) || 'none')
+      current-plan-status=(current_user && current_user.subscriptions.active.first.try(:canceled?) ? 'canceled' : 'active')
       stripe-publishable-key=ENV['STRIPE_PUBLISHABLE_KEY']
       gold-plan-id=ENV['STRIPE_PLAN_ID_TIER1']
       noclip-plan-id=ENV['STRIPE_PLAN_ID_TIER2']

@@ -19,8 +19,8 @@
           current-plan=(current_user.subscriptions.active.first.try(:stripe_plan_id) || 'none')
           current-plan-status=(current_user.subscriptions.active.first.try(:canceled?) ? 'canceled' : 'active')
           stripe-publishable-key=ENV['STRIPE_PUBLISHABLE_KEY']
-          silver-plan-id=ENV['STRIPE_SILVER_PLAN_ID']
-          gold-plan-id=ENV['STRIPE_GOLD_PLAN_ID']
+          silver-plan-id=ENV['STRIPE_PLAN_ID_TIER1']
+          gold-plan-id=ENV['STRIPE_PLAN_ID_TIER2']
         )
     - if current_user.patron?
       = render partial: 'patreon_benefits'

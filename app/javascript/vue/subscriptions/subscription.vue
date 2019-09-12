@@ -13,10 +13,10 @@ export default {
   components: { plan },
   computed: {
     currentUser: function() {
-      return {
+      return this.currentUserId ? {
         id: this.currentUserId,
         email: this.currentUserEmail,
-      }
+      } : null
     },
     basicPlan: function() {
       return {
